@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
 
 export const metadata: Metadata = {
   title: "HRMS - Employee Management System",
@@ -12,9 +13,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="bg-gray-50 font-sans antialiased">
-        {children}
+    <html lang="en" suppressHydrationWarning>
+      <body className="bg-background text-foreground font-sans antialiased">
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );

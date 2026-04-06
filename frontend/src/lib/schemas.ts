@@ -1,5 +1,13 @@
 import { z } from "zod";
 
+function getTodayDateString(): string {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
 // Zod Schemas for validation
 
 export const EmployeeStatusSchema = z.enum(["ACTIVE", "INACTIVE", "ON_LEAVE", "TERMINATED"]);
@@ -36,6 +44,7 @@ export const EducationSchema = z.object({
 });
 
 export const EmploymentSchema = z.object({
+  companyName: z.string().min(2, "Company name is required"),
   jobTitle: z.string().min(2, "Job title is required"),
   department: z.string().min(2, "Department is required"),
   startDate: z.string().min(1, "Start date is required"),
@@ -96,7 +105,12 @@ export const CreateEmployeeSchema = z.object({
   employeeId: z.string().min(3, "Employee ID is required"),
   designation: z.string().min(2, "Designation is required"),
   department: z.string().min(2, "Department is required"),
-  dateOfJoining: z.string().min(1, "Date of joining is required"),
+  dateOfJoining: z
+    .string()
+    .min(1, "Date of joining is required")
+    .refine((value) => value <= getTodayDateString(), {
+      message: "Date of joining cannot be in the future",
+    }),
   status: EmployeeStatusSchema,
 });
 

@@ -19,6 +19,7 @@ public class Employment extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String companyName;
     private String jobTitle;
     private String department;
     private String startDate;

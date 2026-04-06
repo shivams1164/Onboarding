@@ -2,6 +2,17 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+Create a `.env.local` file in the `frontend` folder and add:
+
+```bash
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+CLOUDINARY_UPLOAD_FOLDER=hrms-documents
+```
+
+The Document upload in employee profile now uses a server-side signed upload route (`/api/cloudinary/upload`) so your API secret is not exposed in the browser.
+
 First, run the development server:
 
 ```bash

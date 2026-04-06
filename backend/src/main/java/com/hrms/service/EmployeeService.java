@@ -221,9 +221,9 @@ public class EmployeeService {
 
     // Bank Details
     public BankDetailsDTO getBankDetails(Long employeeId) {
-        Employee employee = employeeRepository.findById(employeeId)
+        employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new RuntimeException("Employee not found"));
-        return bankDetailsRepository.findByEmployee(employee)
+        return bankDetailsRepository.findByEmployeeId(employeeId)
                 .map(details -> modelMapper.map(details, BankDetailsDTO.class))
                 .orElse(null);
     }
@@ -231,20 +231,22 @@ public class EmployeeService {
     public BankDetailsDTO updateBankDetails(Long employeeId, BankDetailsDTO dto) {
         Employee employee = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new RuntimeException("Employee not found"));
-        BankDetails details = bankDetailsRepository.findByEmployee(employee)
+        BankDetails details = bankDetailsRepository.findByEmployeeId(employeeId)
                 .orElse(new BankDetails());
         details.setEmployee(employee);
         modelMapper.map(dto, details);
         BankDetails saved = bankDetailsRepository.save(details);
+        employee.setBankDetails(saved);
         return modelMapper.map(saved, BankDetailsDTO.class);
     }
 
-        public void deleteBankDetails(Long employeeId) {
-                Employee employee = employeeRepository.findById(employeeId)
-                                .orElseThrow(() -> new RuntimeException("Employee not found"));
-                bankDetailsRepository.findByEmployee(employee)
-                                .ifPresent(bankDetailsRepository::delete);
-        }
+    public void deleteBankDetails(Long employeeId) {
+        Employee employee = employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new RuntimeException("Employee not found"));
+
+        bankDetailsRepository.deleteByEmployeeId(employeeId);
+        employee.setBankDetails(null);
+    }
 
     // PF Details
     public PFDetailsDTO getPFDetails(Long employeeId) {

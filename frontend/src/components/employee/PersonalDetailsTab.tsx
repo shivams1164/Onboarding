@@ -1,6 +1,6 @@
 // Employee component: Profile tabs - Personal Details
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/Card";
 import { Badge, Label } from "@/components/ui/FormElements";
 import { Button } from "@/components/ui/Button";
@@ -14,8 +14,6 @@ interface PersonalDetailsTabProps {
 }
 
 export const PersonalDetailsTab: React.FC<PersonalDetailsTabProps> = ({ personalDetails, onEdit }) => {
-  const [isEditMode, setIsEditMode] = useState(false);
-
   if (!personalDetails) {
     return (
       <Card>
@@ -33,14 +31,9 @@ export const PersonalDetailsTab: React.FC<PersonalDetailsTabProps> = ({ personal
     <Card>
       <CardHeader className="flex items-center justify-between">
         <CardTitle>Personal Details</CardTitle>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => setIsEditMode(!isEditMode)}
-          className="gap-2"
-        >
+        <Button variant="outline" size="sm" onClick={onEdit} className="gap-2">
           <Edit2 size={16} />
-          {isEditMode ? "Cancel" : "Edit"}
+          Edit
         </Button>
       </CardHeader>
       <CardContent>

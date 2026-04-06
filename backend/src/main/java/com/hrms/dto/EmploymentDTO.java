@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class EmploymentDTO {
     private Long id;
+    private String companyName;
     private String jobTitle;
     private String department;
     private String startDate;

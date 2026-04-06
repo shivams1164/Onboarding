@@ -2,6 +2,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { Layout } from "@/components/layout/Layout";
 import { EmployeeTable } from "@/components/employee/EmployeeTable";
 import { Button } from "@/components/ui/Button";
@@ -12,6 +13,7 @@ import { UserPlus, Filter } from "lucide-react";
 import type { Employee } from "@/types/employee";
 
 export default function EmployeesPage() {
+  const searchParams = useSearchParams();
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -22,6 +24,14 @@ export default function EmployeesPage() {
 
   const departments = ["Engineering", "HR", "Sales", "Marketing", "Finance", "Operations"];
   const statusOptions = ["ACTIVE", "INACTIVE", "ON_LEAVE", "TERMINATED"];
+
+  useEffect(() => {
+    const statusFromQuery = searchParams.get("status") || "";
+    if (statusFromQuery && statusOptions.includes(statusFromQuery)) {
+      setStatus(statusFromQuery);
+      setCurrentPage(0);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     fetchEmployees();

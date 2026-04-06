@@ -63,7 +63,9 @@ export const EmploymentTab: React.FC<EmploymentTabProps> = ({
                       <Badge variant="default">Current</Badge>
                     )}
                   </div>
-                  <p className="text-sm text-gray-600">{record.department}</p>
+                  <p className="text-sm text-gray-600">
+                    {record.companyName ? `${record.companyName} - ${record.department}` : record.department}
+                  </p>
                 </div>
                 <div className="flex gap-2">
                   <Button

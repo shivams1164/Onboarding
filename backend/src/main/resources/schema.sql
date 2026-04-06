@@ -74,6 +74,7 @@ CREATE TABLE IF NOT EXISTS education (
 CREATE TABLE IF NOT EXISTS employment (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     employee_id BIGINT NOT NULL,
+    company_name VARCHAR(150),
     job_title VARCHAR(100),
     department VARCHAR(100),
     start_date VARCHAR(20),

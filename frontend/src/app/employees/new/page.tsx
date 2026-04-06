@@ -24,6 +24,7 @@ export default function AddEmployeePage() {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [isSaving, setIsSaving] = useState(false);
+  const todayDate = new Date().toISOString().split("T")[0];
 
   const {
     register,
@@ -253,6 +254,7 @@ export default function AddEmployeePage() {
                       <Input
                         id="dateOfJoining"
                         type="date"
+                        max={todayDate}
                         {...register("dateOfJoining")}
                         className={errors.dateOfJoining ? "border-red-500" : ""}
                       />

@@ -193,6 +193,29 @@ export const DocumentsTab: React.FC<DocumentsTabProps> = ({
   onEdit,
   onDelete,
 }) => {
+  const getDownloadUrl = (fileUrl: string): string => {
+    try {
+      const parsed = new URL(fileUrl);
+      if (parsed.hostname.includes("res.cloudinary.com") && parsed.pathname.includes("/upload/")) {
+        parsed.pathname = parsed.pathname.replace("/upload/", "/upload/fl_attachment/");
+      }
+      return parsed.toString();
+    } catch {
+      return fileUrl;
+    }
+  };
+
+  const handleDownload = (doc: Document) => {
+    const link = document.createElement("a");
+    link.href = getDownloadUrl(doc.fileUrl);
+    link.download = doc.fileName || "document";
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  };
+
   if (!documents || documents.length === 0) {
     return (
       <Card>
@@ -231,11 +254,15 @@ export const DocumentsTab: React.FC<DocumentsTabProps> = ({
                   <Button variant="ghost" size="sm" onClick={() => onEdit?.(doc)}>
                     <Edit2 size={16} />
                   </Button>
-                  <a href={doc.fileUrl} target="_blank" rel="noopener noreferrer">
-                    <Button variant="ghost" size="sm" className="gap-1">
-                      <Download size={16} />
-                    </Button>
-                  </a>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="gap-1"
+                    onClick={() => handleDownload(doc)}
+                    aria-label="Download document"
+                  >
+                    <Download size={16} />
+                  </Button>
                   <Button
                     variant="ghost"
                     size="sm"

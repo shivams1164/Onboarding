@@ -61,6 +61,7 @@ export interface Education {
 
 export interface Employment {
   id: string;
+  companyName?: string;
   jobTitle: string;
   department: string;
   startDate: string;

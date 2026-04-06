@@ -33,23 +33,23 @@ export default function DashboardPage() {
     const onLeaveEmployees = employees.filter((employee) => employee.status === "ON_LEAVE").length;
 
     return [
-      { title: "Total Employees", value: String(totalEmployees), icon: Users, color: "bg-blue-500" },
-      { title: "Active Employees", value: String(activeEmployees), icon: TrendingUp, color: "bg-green-500" },
-      { title: "On Leave", value: String(onLeaveEmployees), icon: AlertCircle, color: "bg-yellow-500" },
+      { title: "Total Employees", value: String(totalEmployees), icon: Users, color: "bg-blue-500", href: "/employees" },
+      { title: "Active Employees", value: String(activeEmployees), icon: TrendingUp, color: "bg-green-500", href: "/employees?status=ACTIVE" },
+      { title: "On Leave", value: String(onLeaveEmployees), icon: AlertCircle, color: "bg-yellow-500", href: "/employees?status=ON_LEAVE" },
     ];
   }, [employees]);
 
   return (
     <Layout>
-      <div className="space-y-6">
+      <div className="space-y-4 md:space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-            <p className="text-gray-600 mt-1">Welcome to HRMS</p>
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Dashboard</h1>
+            <p className="text-sm md:text-base text-gray-600 mt-1">Welcome to HRMS</p>
           </div>
           <Link href="/employees/new">
-            <Button className="gap-2">
+            <Button className="w-full justify-center gap-2 md:w-auto md:justify-start">
               <UserPlus size={18} />
               Add Employee
             </Button>
@@ -57,35 +57,39 @@ export default function DashboardPage() {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6">
           {stats.map((stat) => {
             const Icon = stat.icon;
             return (
-              <Card key={stat.title}>
-                <CardContent className="pt-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm text-gray-600">{stat.title}</p>
-                      <p className="text-3xl font-bold text-gray-900 mt-2">{stat.value}</p>
+              <Link key={stat.title} href={stat.href} className="block group">
+                <Card className="cursor-pointer transition-transform duration-200 group-hover:-translate-y-1 group-hover:shadow-xl px-4 py-4 md:px-6 md:py-6">
+                  <CardContent className="pt-0">
+                    <div className="flex items-center justify-between gap-4">
+                      <div>
+                        <p className="text-sm md:text-base text-gray-600">{stat.title}</p>
+                        <p className="text-2xl md:text-3xl font-bold text-gray-900 mt-2">{stat.value}</p>
+                        <p className="mt-2 text-xs md:text-sm text-gray-500 group-hover:text-gray-700">Click to view details</p>
+                      </div>
+                      <div className={`${stat.color} p-3 md:p-4 rounded-lg text-white shrink-0`}>
+                        <Icon size={20} className="md:hidden" />
+                        <Icon size={24} className="hidden md:block" />
+                      </div>
                     </div>
-                    <div className={`${stat.color} p-4 rounded-lg text-white`}>
-                      <Icon size={24} />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              </Link>
             );
           })}
         </div>
 
         {/* Recent Activity */}
-        <Card>
+        <Card className="p-4 md:p-6">
           <CardHeader>
             <CardTitle>Recent Activity</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="py-8 text-center">
-              <p className="text-gray-600">No recent activity available</p>
+            <div className="py-6 md:py-8 text-center">
+              <p className="text-sm md:text-base text-gray-600">No recent activity available</p>
             </div>
           </CardContent>
         </Card>
