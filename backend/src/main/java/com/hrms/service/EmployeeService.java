@@ -253,7 +253,15 @@ public class EmployeeService {
         BankDetails details = bankDetailsRepository.findByEmployeeId(employeeId)
                 .orElse(new BankDetails());
         details.setEmployee(employee);
-        modelMapper.map(dto, details);
+
+        // Never map DTO id into a JPA @GeneratedValue id on managed entities.
+        details.setAccountHolderName(dto.getAccountHolderName());
+        details.setAccountNumber(dto.getAccountNumber());
+        details.setIfscCode(dto.getIfscCode());
+        details.setBankName(dto.getBankName());
+        details.setBranchName(dto.getBranchName());
+        details.setAccountType(dto.getAccountType());
+
         BankDetails saved = bankDetailsRepository.save(details);
         employee.setBankDetails(saved);
         return modelMapper.map(saved, BankDetailsDTO.class);
