@@ -11,7 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { CreateEmployeeSchema } from "@/lib/schemas";
 import type { CreateEmployeeFormData } from "@/lib/schemas";
 import { employeeApi } from "@/lib/api";
-import { ChevronLeft, ChevronRight, Save, FileText } from "lucide-react";
+import { ChevronLeft, ChevronRight, Save } from "lucide-react";
 
 const steps = [
   { id: 1, title: "Basic Info", description: "Name, Email, Phone" },
@@ -84,64 +84,87 @@ export default function AddEmployeePage() {
   };
 
   const canProceed = isStepComplete(currentStep);
+  const progressPercent = Math.round((currentStep / steps.length) * 100);
 
   return (
     <Layout>
       <div className="space-y-6">
         {/* Header */}
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Add New Employee</h1>
-          <p className="text-gray-600 mt-1">Complete the form to create a new employee</p>
+          <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">Add New Employee</h1>
+          <p className="mt-1 text-sm text-gray-600 sm:text-base">Complete the form to create a new employee</p>
         </div>
 
         {/* Stepper */}
-        <Card>
-          <CardContent className="pt-6">
-            <div className="flex items-center justify-between">
-              {steps.map((step, index) => (
-                <div key={step.id} className="flex items-center flex-1">
-                  {/* Step circle */}
+        <Card className="overflow-hidden">
+          <CardContent className="space-y-5">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="text-sm font-medium text-blue-600">Step {currentStep} of {steps.length}</p>
+                <h2 className="text-lg font-semibold text-gray-900 sm:text-xl">{steps[currentStep - 1].title}</h2>
+                <p className="mt-1 text-sm text-gray-600">{steps[currentStep - 1].description}</p>
+              </div>
+              <p className="rounded-full bg-blue-50 px-3 py-1 text-sm font-medium text-blue-700 dark:bg-blue-950/40 dark:text-blue-200">
+                {progressPercent}%
+              </p>
+            </div>
+
+            <div className="h-2 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-800">
+              <div
+                className="h-full rounded-full bg-blue-600 transition-all duration-300"
+                style={{ width: `${progressPercent}%` }}
+              />
+            </div>
+
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+              {steps.map((step) => {
+                const completed = isStepComplete(step.id);
+                const isActive = currentStep === step.id;
+
+                return (
                   <button
+                    key={step.id}
+                    type="button"
                     onClick={() => setCurrentStep(step.id)}
-                    className={`flex items-center justify-center w-10 h-10 rounded-full font-semibold transition-all ${
-                      currentStep === step.id
-                        ? "bg-blue-600 text-white"
-                        : isStepComplete(step.id)
-                        ? "bg-green-100 text-green-800"
-                        : "bg-gray-200 text-gray-600"
+                    aria-current={isActive ? "step" : undefined}
+                    className={`flex min-h-11 items-start gap-3 rounded-xl border px-4 py-3 text-left transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                      isActive
+                        ? "border-blue-600 bg-blue-50 shadow-sm dark:border-blue-500 dark:bg-blue-950/30"
+                        : completed
+                        ? "border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-950/20"
+                        : "border-gray-200 bg-white hover:border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:hover:border-gray-600"
                     }`}
                   >
-                    {isStepComplete(step.id) && currentStep !== step.id ? "✓" : step.id}
-                  </button>
-
-                  {/* Step info */}
-                  <div className="ml-3 hidden md:block">
-                    <p className="text-sm font-medium text-gray-900">{step.title}</p>
-                    <p className="text-xs text-gray-500">{step.description}</p>
-                  </div>
-
-                  {/* Connector line */}
-                  {index < steps.length - 1 && (
-                    <div
-                      className={`flex-1 h-1 mx-2 md:mx-4 ${
-                        isStepComplete(step.id) ? "bg-green-200" : "bg-gray-300"
+                    <span
+                      className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold ${
+                        isActive
+                          ? "bg-blue-600 text-white"
+                          : completed
+                          ? "bg-green-600 text-white"
+                          : "bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-200"
                       }`}
-                    />
-                  )}
-                </div>
-              ))}
+                    >
+                      {completed && !isActive ? "✓" : step.id}
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block text-sm font-semibold text-gray-900 dark:text-gray-100">{step.title}</span>
+                      <span className="mt-1 block text-xs text-gray-500 dark:text-gray-400">{step.description}</span>
+                    </span>
+                  </button>
+                );
+              })}
             </div>
           </CardContent>
         </Card>
 
         {/* Form */}
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <Card>
             <CardHeader>
               <CardTitle>{steps[currentStep - 1].title}</CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <CardContent className="space-y-6">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
                 {/* Step 1: Basic Info */}
                 {currentStep === 1 && (
                   <>
@@ -318,54 +341,49 @@ export default function AddEmployeePage() {
           </Card>
 
           {/* Footer Buttons */}
-          <div className="flex items-center justify-between gap-4 mt-6">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => setCurrentStep(Math.max(1, currentStep - 1))}
-              disabled={currentStep === 1}
-              className="gap-2"
-            >
-              <ChevronLeft size={16} />
-              Previous
-            </Button>
-
-            <Button
-              type="button"
-              variant="ghost"
-              className="gap-2"
-            >
-              <FileText size={16} />
-              Save as Draft
-            </Button>
-
-            {currentStep < 4 ? (
+          <div className="sticky bottom-0 z-10 -mx-4 border-t border-gray-200 bg-gray-50/95 px-4 py-4 backdrop-blur sm:-mx-6 sm:px-6 dark:border-gray-700 dark:bg-gray-950/95">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <Button
                 type="button"
-                onClick={async () => {
-                  const isValid = await validateCurrentStep();
-                  if (!isValid) {
-                    return;
-                  }
-                  setCurrentStep(Math.min(4, currentStep + 1));
-                }}
-                disabled={!canProceed}
-                className="gap-2"
+                variant="outline"
+                onClick={() => setCurrentStep(Math.max(1, currentStep - 1))}
+                disabled={currentStep === 1}
+                className="w-full gap-2 sm:w-auto"
               >
-                Next
-                <ChevronRight size={16} />
+                <ChevronLeft size={16} />
+                Previous
               </Button>
-            ) : (
-              <Button
-                type="submit"
-                disabled={isSaving}
-                isLoading={isSaving}
-                className="gap-2"
-              >
-                <Save size={16} />
-                Create Employee
-              </Button>
-            )}
+
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                {currentStep < 4 ? (
+                  <Button
+                    type="button"
+                    onClick={async () => {
+                      const isValid = await validateCurrentStep();
+                      if (!isValid) {
+                        return;
+                      }
+                      setCurrentStep(Math.min(4, currentStep + 1));
+                    }}
+                    disabled={!canProceed}
+                    className="w-full gap-2 sm:w-auto"
+                  >
+                    Next
+                    <ChevronRight size={16} />
+                  </Button>
+                ) : (
+                  <Button
+                    type="submit"
+                    disabled={isSaving}
+                    isLoading={isSaving}
+                    className="w-full gap-2 sm:w-auto"
+                  >
+                    <Save size={16} />
+                    Create Employee
+                  </Button>
+                )}
+              </div>
+            </div>
           </div>
         </form>
       </div>

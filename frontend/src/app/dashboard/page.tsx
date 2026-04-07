@@ -45,8 +45,8 @@ export default function DashboardPage() {
         {/* Header */}
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Dashboard</h1>
-            <p className="text-sm md:text-base text-gray-600 mt-1">Welcome to HRMS</p>
+            <h1 className="text-2xl font-bold text-gray-900 md:text-3xl">Dashboard</h1>
+            <p className="mt-1 text-sm text-gray-600 md:text-base">Welcome to HRMS</p>
           </div>
           <Link href="/employees/new">
             <Button className="w-full justify-center gap-2 md:w-auto md:justify-start">
@@ -57,7 +57,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3 md:gap-6">
           {stats.map((stat) => {
             const Icon = stat.icon;
             return (

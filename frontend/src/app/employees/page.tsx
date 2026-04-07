@@ -2,6 +2,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { Layout } from "@/components/layout/Layout";
 import { EmployeeTable } from "@/components/employee/EmployeeTable";
@@ -13,6 +14,7 @@ import { UserPlus, Filter } from "lucide-react";
 import type { Employee } from "@/types/employee";
 
 export default function EmployeesPage() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -68,8 +70,7 @@ export default function EmployeesPage() {
   };
 
   const handleEdit = (employee: Employee) => {
-    console.log("Edit employee:", employee);
-    // TODO: Navigate to edit page or open modal
+    router.push(`/employees/${employee.id}?tab=overview`);
   };
 
   const handleDelete = (employee: Employee) => {
@@ -85,13 +86,13 @@ export default function EmployeesPage() {
     <Layout onSearch={handleSearch}>
       <div className="space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between flex-wrap gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Employees</h1>
-            <p className="text-gray-600 mt-1">Manage all employees in the system</p>
+            <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">Employees</h1>
+            <p className="mt-1 text-sm text-gray-600 sm:text-base">Manage all employees in the system</p>
           </div>
           <Link href="/employees/new">
-            <Button className="gap-2">
+            <Button className="w-full gap-2 sm:w-auto">
               <UserPlus size={18} />
               Add Employee
             </Button>
@@ -100,14 +101,13 @@ export default function EmployeesPage() {
 
         {/* Filters */}
         <Card>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
             <Select
               value={department}
               onChange={(e) => {
                 setDepartment(e.target.value);
                 setCurrentPage(0);
               }}
-              className="md:col-span-1"
             >
               <option value="">All Departments</option>
               {departments.map((dept) => (
@@ -123,7 +123,6 @@ export default function EmployeesPage() {
                 setStatus(e.target.value);
                 setCurrentPage(0);
               }}
-              className="md:col-span-1"
             >
               <option value="">All Status</option>
               {statusOptions.map((st) => (
@@ -135,7 +134,7 @@ export default function EmployeesPage() {
 
             <Button
               variant="outline"
-              className="md:col-span-2 gap-2"
+              className="gap-2 xl:col-span-2"
               onClick={() => {
                 setDepartment("");
                 setStatus("");

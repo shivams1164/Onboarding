@@ -26,7 +26,7 @@ export const AddressTab: React.FC<AddressTabProps> = ({
         <CardContent className="py-12 flex items-center justify-center">
           <div className="text-center">
             <p className="text-gray-600 mb-4">No addresses on file</p>
-            <Button onClick={onAdd} className="gap-2">
+            <Button onClick={onAdd} className="w-full gap-2 sm:w-auto">
               <Plus size={16} />
               Add Address
             </Button>
@@ -39,7 +39,7 @@ export const AddressTab: React.FC<AddressTabProps> = ({
   return (
     <div className="space-y-4">
       <div className="flex justify-end mb-4">
-        <Button onClick={onAdd} className="gap-2">
+        <Button onClick={onAdd} className="w-full gap-2 sm:w-auto">
           <Plus size={16} />
           Add Address
         </Button>

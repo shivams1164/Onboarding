@@ -26,7 +26,7 @@ export const Input = React.forwardRef<HTMLInputElement, React.InputHTMLAttribute
   ({ className = "", ...props }, ref) => (
     <input
       ref={ref}
-      className={`w-full px-4 py-2 border border-gray-300 rounded-lg bg-white text-black placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed transition-all dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100 dark:placeholder:text-gray-400 dark:disabled:bg-gray-700 ${className}`}
+      className={`w-full min-h-11 px-4 py-3 border border-gray-300 rounded-lg bg-white text-black placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed transition-all dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100 dark:placeholder:text-gray-400 dark:focus:border-blue-400 dark:disabled:bg-gray-700 ${className}`}
       {...props}
     />
   )
@@ -38,7 +38,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, React.TextareaHTML
   ({ className = "", ...props }, ref) => (
     <textarea
       ref={ref}
-      className={`w-full px-4 py-2 border border-gray-300 rounded-lg bg-white text-black placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed transition-all resize-none dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100 dark:placeholder:text-gray-400 dark:disabled:bg-gray-700 ${className}`}
+      className={`w-full min-h-11 px-4 py-3 border border-gray-300 rounded-lg bg-white text-black placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed transition-all resize-none dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100 dark:placeholder:text-gray-400 dark:focus:border-blue-400 dark:disabled:bg-gray-700 ${className}`}
       {...props}
     />
   )
@@ -50,7 +50,7 @@ export const Select = React.forwardRef<HTMLSelectElement, React.SelectHTMLAttrib
   ({ className = "", children, ...props }, ref) => (
     <select
       ref={ref}
-      className={`w-full px-4 py-2 border border-gray-300 rounded-lg bg-white text-black focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed transition-all dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100 dark:disabled:bg-gray-700 ${className}`}
+      className={`w-full min-h-11 px-4 py-3 border border-gray-300 rounded-lg bg-white text-black focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed transition-all dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100 dark:focus:border-blue-400 dark:disabled:bg-gray-700 ${className}`}
       {...props}
     >
       {children}
@@ -69,7 +69,7 @@ export const Label = React.forwardRef<HTMLLabelElement, React.HTMLAttributes<HTM
 Label.displayName = "Label";
 
 export const FormField = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className = "", ...props }, ref) => <div ref={ref} className={`mb-4 ${className}`} {...props} />
+  ({ className = "", ...props }, ref) => <div ref={ref} className={`mb-5 ${className}`} {...props} />
 );
 
 FormField.displayName = "FormField";

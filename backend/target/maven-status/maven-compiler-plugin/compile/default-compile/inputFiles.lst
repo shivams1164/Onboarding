@@ -17,6 +17,7 @@ D:\Github\Onboarding\backend\src\main\java\com\hrms\controller\EmployeeControlle
 D:\Github\Onboarding\backend\src\main\java\com\hrms\dto\EmploymentDTO.java
 D:\Github\Onboarding\backend\src\main\java\com\hrms\exception\GlobalExceptionHandler.java
 D:\Github\Onboarding\backend\src\main\java\com\hrms\entity\PersonalDetails.java
+D:\Github\Onboarding\backend\src\main\java\com\hrms\entity\EmployeeStatus.java
 D:\Github\Onboarding\backend\src\main\java\com\hrms\HrmsApplication.java
 D:\Github\Onboarding\backend\src\main\java\com\hrms\config\AppConfig.java
 D:\Github\Onboarding\backend\src\main\java\com\hrms\service\EmployeeService.java

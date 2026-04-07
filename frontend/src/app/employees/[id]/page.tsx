@@ -81,6 +81,18 @@ const TAB_KEYS = [
 ] as const;
 type TabKey = (typeof TAB_KEYS)[number];
 
+const TAB_OPTIONS: Array<{ value: TabKey; label: string }> = [
+  { value: "overview", label: "Overview" },
+  { value: "personal", label: "Personal" },
+  { value: "address", label: "Address" },
+  { value: "education", label: "Education" },
+  { value: "employment", label: "Employment" },
+  { value: "family", label: "Family" },
+  { value: "bank", label: "Bank & PF" },
+  { value: "documents", label: "Documents" },
+  { value: "assets", label: "Assets" },
+];
+
 function getTodayDateString(): string {
   const now = new Date();
   const year = now.getFullYear();
@@ -645,6 +657,7 @@ export default function EmployeeDetailPage() {
     await runMutation(async () => {
       const payload = {
         ...employmentForm,
+        isCurrentJob: employmentForm.endDate ? false : employmentForm.isCurrentJob,
         salary: employmentForm.salary ? Number(employmentForm.salary) : null,
       };
       if (isEditingEmployment && editingEmploymentId) {
@@ -1103,16 +1116,26 @@ export default function EmployeeDetailPage() {
 
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-4">
-          <TabsList className="w-full justify-start overflow-x-auto">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="personal">Personal</TabsTrigger>
-            <TabsTrigger value="address">Address</TabsTrigger>
-            <TabsTrigger value="education">Education</TabsTrigger>
-            <TabsTrigger value="employment">Employment</TabsTrigger>
-            <TabsTrigger value="family">Family</TabsTrigger>
-            <TabsTrigger value="bank">Bank & PF</TabsTrigger>
-            <TabsTrigger value="documents">Documents</TabsTrigger>
-            <TabsTrigger value="assets">Assets</TabsTrigger>
+          <div className="space-y-3 md:hidden">
+            <Select
+              aria-label="Select employee profile section"
+              value={activeTab}
+              onChange={(event) => handleTabChange(event.target.value)}
+            >
+              {TAB_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </Select>
+          </div>
+
+          <TabsList className="hidden md:flex">
+            {TAB_OPTIONS.map((option) => (
+              <TabsTrigger key={option.value} value={option.value}>
+                {option.label}
+              </TabsTrigger>
+            ))}
           </TabsList>
 
           {/* Tab Contents */}
@@ -1195,74 +1218,71 @@ export default function EmployeeDetailPage() {
             <DialogTitle>Personal Details</DialogTitle>
             <DialogDescription>Edit employee and personal information.</DialogDescription>
           </DialogHeader>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[60vh] overflow-y-auto pr-1">
-            <div>
-              <Label>First Name *</Label>
-              <Input value={personalForm.firstName} onChange={(e) => setPersonalForm((p) => ({ ...p, firstName: e.target.value }))} />
-            </div>
-            <div>
-              <Label>Last Name *</Label>
-              <Input value={personalForm.lastName} onChange={(e) => setPersonalForm((p) => ({ ...p, lastName: e.target.value }))} />
-            </div>
-            <div>
-              <Label>Email *</Label>
-              <Input type="email" value={personalForm.email} onChange={(e) => setPersonalForm((p) => ({ ...p, email: e.target.value }))} />
-            </div>
-            <div>
-              <Label>Phone *</Label>
-              <Input value={personalForm.phone} onChange={(e) => setPersonalForm((p) => ({ ...p, phone: e.target.value }))} />
-            </div>
-            <div>
-              <Label>Date of Birth</Label>
-              <Input type="date" max={todayDate} value={personalForm.dateOfBirth} onChange={(e) => setPersonalForm((p) => ({ ...p, dateOfBirth: e.target.value }))} />
-            </div>
-            <div>
-              <Label>Gender</Label>
-              <Select value={personalForm.gender} onChange={(e) => setPersonalForm((p) => ({ ...p, gender: e.target.value }))}>
-                <option value="MALE">Male</option>
-                <option value="FEMALE">Female</option>
-                <option value="OTHER">Other</option>
-              </Select>
-            </div>
-            <div>
-              <Label>Marital Status</Label>
-              <Select value={personalForm.maritalStatus} onChange={(e) => setPersonalForm((p) => ({ ...p, maritalStatus: e.target.value }))}>
-                <option value="SINGLE">Single</option>
-                <option value="MARRIED">Married</option>
-                <option value="DIVORCED">Divorced</option>
-                <option value="WIDOWED">Widowed</option>
-              </Select>
-            </div>
-            <div>
-              <Label>Blood Group</Label>
-              <Input value={personalForm.bloodGroup} onChange={(e) => setPersonalForm((p) => ({ ...p, bloodGroup: e.target.value }))} />
-            </div>
-            <div>
-              <Label>Nationality</Label>
-              <Input value={personalForm.nationality} onChange={(e) => setPersonalForm((p) => ({ ...p, nationality: e.target.value }))} />
-            </div>
-            <div>
-              <Label>Aadhaar Number</Label>
-              <Input value={personalForm.aadharNumber} onChange={(e) => setPersonalForm((p) => ({ ...p, aadharNumber: e.target.value }))} />
-            </div>
-            <div>
-              <Label>PAN Number</Label>
-              <Input value={personalForm.panNumber} onChange={(e) => setPersonalForm((p) => ({ ...p, panNumber: e.target.value }))} />
-            </div>
-            <div className="md:col-span-2">
-              <Label>Passport Number</Label>
-              <Input value={personalForm.passportNumber} onChange={(e) => setPersonalForm((p) => ({ ...p, passportNumber: e.target.value }))} />
+          <div className="max-h-[calc(100dvh-14rem)] overflow-y-auto pr-1">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+              <div>
+                <Label>First Name *</Label>
+                <Input value={personalForm.firstName} onChange={(e) => setPersonalForm((p) => ({ ...p, firstName: e.target.value }))} />
+              </div>
+              <div>
+                <Label>Last Name *</Label>
+                <Input value={personalForm.lastName} onChange={(e) => setPersonalForm((p) => ({ ...p, lastName: e.target.value }))} />
+              </div>
+              <div>
+                <Label>Email *</Label>
+                <Input type="email" value={personalForm.email} onChange={(e) => setPersonalForm((p) => ({ ...p, email: e.target.value }))} />
+              </div>
+              <div>
+                <Label>Phone *</Label>
+                <Input value={personalForm.phone} onChange={(e) => setPersonalForm((p) => ({ ...p, phone: e.target.value }))} />
+              </div>
+              <div>
+                <Label>Date of Birth</Label>
+                <Input type="date" max={todayDate} value={personalForm.dateOfBirth} onChange={(e) => setPersonalForm((p) => ({ ...p, dateOfBirth: e.target.value }))} />
+              </div>
+              <div>
+                <Label>Gender</Label>
+                <Select value={personalForm.gender} onChange={(e) => setPersonalForm((p) => ({ ...p, gender: e.target.value }))}>
+                  <option value="MALE">Male</option>
+                  <option value="FEMALE">Female</option>
+                  <option value="OTHER">Other</option>
+                </Select>
+              </div>
+              <div>
+                <Label>Marital Status</Label>
+                <Select value={personalForm.maritalStatus} onChange={(e) => setPersonalForm((p) => ({ ...p, maritalStatus: e.target.value }))}>
+                  <option value="SINGLE">Single</option>
+                  <option value="MARRIED">Married</option>
+                  <option value="DIVORCED">Divorced</option>
+                  <option value="WIDOWED">Widowed</option>
+                </Select>
+              </div>
+              <div>
+                <Label>Blood Group</Label>
+                <Input value={personalForm.bloodGroup} onChange={(e) => setPersonalForm((p) => ({ ...p, bloodGroup: e.target.value }))} />
+              </div>
+              <div>
+                <Label>Nationality</Label>
+                <Input value={personalForm.nationality} onChange={(e) => setPersonalForm((p) => ({ ...p, nationality: e.target.value }))} />
+              </div>
+              <div>
+                <Label>Aadhaar Number</Label>
+                <Input value={personalForm.aadharNumber} onChange={(e) => setPersonalForm((p) => ({ ...p, aadharNumber: e.target.value }))} />
+              </div>
+              <div>
+                <Label>PAN Number</Label>
+                <Input value={personalForm.panNumber} onChange={(e) => setPersonalForm((p) => ({ ...p, panNumber: e.target.value }))} />
+              </div>
+              <div className="sm:col-span-2">
+                <Label>Passport Number</Label>
+                <Input value={personalForm.passportNumber} onChange={(e) => setPersonalForm((p) => ({ ...p, passportNumber: e.target.value }))} />
+              </div>
             </div>
           </div>
           {fieldError && <FormError>{fieldError}</FormError>}
-          <DialogFooter>
-            {employee.personalDetails && (
-              <Button variant="destructive" onClick={deletePersonalDetails} disabled={isSaving}>
-                Delete
-              </Button>
-            )}
-            <Button variant="outline" onClick={() => setPersonalOpen(false)} disabled={isSaving}>Cancel</Button>
-            <Button onClick={savePersonalDetails} disabled={isSaving}>
+          <DialogFooter className="flex-row flex-wrap justify-end">
+            <Button size="sm" variant="outline" onClick={() => setPersonalOpen(false)} disabled={isSaving}>Cancel</Button>
+            <Button size="sm" onClick={savePersonalDetails} disabled={isSaving}>
               {isSaving && <Loader2 size={16} className="animate-spin mr-2" />}Save
             </Button>
           </DialogFooter>
@@ -1345,19 +1365,21 @@ export default function EmployeeDetailPage() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{isEditingEmployment ? "Edit Employment" : "Add Employment"}</DialogTitle>
-            <DialogDescription>Manage employee employment history.</DialogDescription>
+            <DialogDescription>Manage employee employment history. Adding a date of exit will mark the employee inactive.</DialogDescription>
           </DialogHeader>
-          <div className="space-y-3">
-            <div><Label>Company Name *</Label><Input value={employmentForm.companyName} onChange={(e) => setEmploymentForm((p) => ({ ...p, companyName: e.target.value }))} /></div>
-            <div><Label>Job Title *</Label><Input value={employmentForm.jobTitle} onChange={(e) => setEmploymentForm((p) => ({ ...p, jobTitle: e.target.value }))} /></div>
-            <div><Label>Work Location / Department *</Label><Input value={employmentForm.department} onChange={(e) => setEmploymentForm((p) => ({ ...p, department: e.target.value }))} /></div>
-            <div className="grid grid-cols-2 gap-3">
-              <div><Label>Start Date *</Label><Input type="date" max={todayDate} value={employmentForm.startDate} onChange={(e) => setEmploymentForm((p) => ({ ...p, startDate: e.target.value }))} /></div>
-              <div><Label>End Date</Label><Input type="date" max={todayDate} value={employmentForm.endDate} onChange={(e) => setEmploymentForm((p) => ({ ...p, endDate: e.target.value }))} /></div>
+          <div className="max-h-[calc(100dvh-18rem)] overflow-y-auto pr-1">
+            <div className="space-y-3">
+              <div><Label>Company Name *</Label><Input value={employmentForm.companyName} onChange={(e) => setEmploymentForm((p) => ({ ...p, companyName: e.target.value }))} /></div>
+              <div><Label>Job Title *</Label><Input value={employmentForm.jobTitle} onChange={(e) => setEmploymentForm((p) => ({ ...p, jobTitle: e.target.value }))} /></div>
+              <div><Label>Work Location / Department *</Label><Input value={employmentForm.department} onChange={(e) => setEmploymentForm((p) => ({ ...p, department: e.target.value }))} /></div>
+              <div className="grid grid-cols-2 gap-3">
+                <div><Label>Start Date *</Label><Input type="date" max={todayDate} value={employmentForm.startDate} onChange={(e) => setEmploymentForm((p) => ({ ...p, startDate: e.target.value }))} /></div>
+                <div><Label>Date of Exit</Label><Input type="date" max={todayDate} value={employmentForm.endDate} onChange={(e) => setEmploymentForm((p) => ({ ...p, endDate: e.target.value }))} /></div>
+              </div>
+              <div><Label>Employment Type</Label><Select value={employmentForm.employmentType} onChange={(e) => setEmploymentForm((p) => ({ ...p, employmentType: e.target.value }))}><option value="FULL_TIME">Full Time</option><option value="PART_TIME">Part Time</option><option value="CONTRACT">Contract</option><option value="INTERN">Intern</option></Select></div>
+              <div><Label>Reporting Manager</Label><Input value={employmentForm.reportingManager} onChange={(e) => setEmploymentForm((p) => ({ ...p, reportingManager: e.target.value }))} /></div>
+              <div><Label>Salary</Label><Input type="number" value={employmentForm.salary} onChange={(e) => setEmploymentForm((p) => ({ ...p, salary: e.target.value }))} /></div>
             </div>
-            <div><Label>Employment Type</Label><Select value={employmentForm.employmentType} onChange={(e) => setEmploymentForm((p) => ({ ...p, employmentType: e.target.value }))}><option value="FULL_TIME">Full Time</option><option value="PART_TIME">Part Time</option><option value="CONTRACT">Contract</option><option value="INTERN">Intern</option></Select></div>
-            <div><Label>Reporting Manager</Label><Input value={employmentForm.reportingManager} onChange={(e) => setEmploymentForm((p) => ({ ...p, reportingManager: e.target.value }))} /></div>
-            <div><Label>Salary</Label><Input type="number" value={employmentForm.salary} onChange={(e) => setEmploymentForm((p) => ({ ...p, salary: e.target.value }))} /></div>
           </div>
           {fieldError && <FormError>{fieldError}</FormError>}
           <DialogFooter>

@@ -90,7 +90,3 @@ public class Employee extends BaseEntity {
     @Builder.Default
     private List<Asset> assets = new ArrayList<>();
 }
-
-enum EmployeeStatus {
-    ACTIVE, INACTIVE, ON_LEAVE, TERMINATED
-}

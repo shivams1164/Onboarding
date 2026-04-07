@@ -27,7 +27,7 @@ export const EmploymentTab: React.FC<EmploymentTabProps> = ({
         <CardContent className="py-12 flex items-center justify-center">
           <div className="text-center">
             <p className="text-gray-600 mb-4">No employment history</p>
-            <Button onClick={onAdd} className="gap-2">
+            <Button onClick={onAdd} className="w-full gap-2 sm:w-auto">
               <Plus size={16} />
               Add Employment
             </Button>
@@ -45,7 +45,7 @@ export const EmploymentTab: React.FC<EmploymentTabProps> = ({
   return (
     <div className="space-y-4">
       <div className="flex justify-end mb-4">
-        <Button onClick={onAdd} className="gap-2">
+        <Button onClick={onAdd} className="w-full gap-2 sm:w-auto">
           <Plus size={16} />
           Add Employment
         </Button>
@@ -87,13 +87,13 @@ export const EmploymentTab: React.FC<EmploymentTabProps> = ({
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
                 <div>
                   <p className="text-xs text-gray-600 font-medium uppercase tracking-wide">Start Date</p>
                   <p className="text-gray-900 mt-1">{formatDate(record.startDate)}</p>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-600 font-medium uppercase tracking-wide">End Date</p>
+                  <p className="text-xs text-gray-600 font-medium uppercase tracking-wide">Date of Exit</p>
                   <p className="text-gray-900 mt-1">
                     {record.endDate ? formatDate(record.endDate) : "Ongoing"}
                   </p>

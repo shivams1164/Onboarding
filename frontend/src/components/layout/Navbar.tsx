@@ -21,10 +21,15 @@ export const Navbar: React.FC<NavbarProps> = ({ onMenuClick, onSearch }) => {
   };
 
   return (
-    <div className="sticky top-0 z-10 border-b border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900">
-      <div className="flex items-center gap-3 px-3 py-3 md:px-6">
+    <div className="z-40 border-b border-gray-200/80 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 dark:border-gray-700 dark:bg-gray-900/95 dark:supports-[backdrop-filter]:bg-gray-900/80">
+      <div className="flex min-h-[96px] items-center gap-3 px-3 py-3 sm:px-4 md:px-6">
         {/* Mobile menu button */}
-        <button onClick={onMenuClick} className="md:hidden shrink-0 text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white" aria-label="Open menu">
+        <button
+          type="button"
+          onClick={onMenuClick}
+          className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 md:hidden dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
+          aria-label="Open navigation menu"
+        >
           <Menu size={24} />
         </button>
 
@@ -43,8 +48,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onMenuClick, onSearch }) => {
         </div>
 
         <button
+          type="button"
           onClick={toggleTheme}
-          className="inline-flex shrink-0 items-center justify-center rounded-lg border border-gray-300 bg-white p-2 text-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
+          className="ml-auto inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
           aria-label="Toggle theme"
           title={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}
         >

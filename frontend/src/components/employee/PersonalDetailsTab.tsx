@@ -37,7 +37,7 @@ export const PersonalDetailsTab: React.FC<PersonalDetailsTabProps> = ({ personal
         </Button>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
           {/* Date of Birth */}
           <div>
             <Label className="text-sm font-medium text-gray-700">Date of Birth</Label>

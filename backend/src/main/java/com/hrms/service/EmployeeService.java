@@ -173,11 +173,30 @@ public class EmployeeService {
     }
 
     public EmploymentDTO updateEmployment(Long employeeId, Long employmentId, EmploymentDTO dto) {
-        employeeRepository.findById(employeeId)
+                Employee employee = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new RuntimeException("Employee not found"));
         Employment employment = employmentRepository.findById(employmentId)
                 .orElseThrow(() -> new RuntimeException("Employment not found"));
-        modelMapper.map(dto, employment);
+                if (employment.getEmployee() == null || !employment.getEmployee().getId().equals(employeeId)) {
+                        throw new RuntimeException("Employment not found for employee");
+                }
+                boolean wasCurrentJob = Boolean.TRUE.equals(employment.getIsCurrentJob());
+                employment.setCompanyName(dto.getCompanyName());
+                employment.setJobTitle(dto.getJobTitle());
+                employment.setDepartment(dto.getDepartment());
+                employment.setStartDate(dto.getStartDate());
+                employment.setEndDate(dto.getEndDate());
+                employment.setIsCurrentJob(dto.getIsCurrentJob() != null ? dto.getIsCurrentJob() : employment.getIsCurrentJob());
+                employment.setReportingManager(dto.getReportingManager());
+                employment.setSalary(dto.getSalary());
+                employment.setEmploymentType(dto.getEmploymentType());
+                employment.setEmployee(employee);
+                if (dto.getEndDate() != null && !dto.getEndDate().trim().isEmpty()) {
+                        employment.setIsCurrentJob(false);
+                        if (wasCurrentJob || Boolean.TRUE.equals(dto.getIsCurrentJob())) {
+                                employee.setStatus(EmployeeStatus.INACTIVE);
+                        }
+                }
         Employment saved = employmentRepository.save(employment);
         return modelMapper.map(saved, EmploymentDTO.class);
     }
@@ -295,11 +314,18 @@ public class EmployeeService {
     }
 
     public DocumentDTO updateDocument(Long employeeId, Long documentId, DocumentDTO dto) {
-        employeeRepository.findById(employeeId)
+        Employee employee = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new RuntimeException("Employee not found"));
         Document document = documentRepository.findById(documentId)
                 .orElseThrow(() -> new RuntimeException("Document not found"));
-        modelMapper.map(dto, document);
+        if (document.getEmployee() == null || !document.getEmployee().getId().equals(employeeId)) {
+            throw new RuntimeException("Document not found for employee");
+        }
+        document.setType(dto.getType());
+        document.setFileName(dto.getFileName());
+        document.setFileUrl(dto.getFileUrl());
+        document.setExpiryDate(dto.getExpiryDate());
+        document.setEmployee(employee);
         Document saved = documentRepository.save(document);
         return modelMapper.map(saved, DocumentDTO.class);
     }
