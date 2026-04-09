@@ -1424,7 +1424,8 @@ export default function EmployeeDetailPage() {
             <DialogTitle>Bank Details</DialogTitle>
             <DialogDescription>Manage bank account details for salary processing.</DialogDescription>
           </DialogHeader>
-          <div className="space-y-3">
+          <div className="max-h-[calc(100dvh-14rem)] min-h-0 overflow-y-auto pr-1">
+            <div className="space-y-3">
             <div><Label>Account Holder Name *</Label><Input value={bankForm.accountHolderName} onChange={(e) => setBankForm((p) => ({ ...p, accountHolderName: e.target.value.replace(/[^A-Za-z ]/g, "") }))} /></div>
             <div className="relative">
               <Label>Bank Name *</Label>
@@ -1516,6 +1517,7 @@ export default function EmployeeDetailPage() {
             <div><Label>Account Type</Label><Select value={bankForm.accountType} onChange={(e) => setBankForm((p) => ({ ...p, accountType: e.target.value }))}><option value="SAVINGS">Savings</option><option value="CURRENT">Current</option></Select></div>
             {isFetchingIfsc && <p className="text-sm text-blue-600">Fetching bank and branch from IFSC...</p>}
             {ifscLookupError && <p className="text-sm text-red-600">{ifscLookupError}</p>}
+            </div>
           </div>
           {fieldError && <FormError>{fieldError}</FormError>}
           <DialogFooter>
