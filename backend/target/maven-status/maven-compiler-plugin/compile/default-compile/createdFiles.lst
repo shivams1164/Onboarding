@@ -1,3 +1,4 @@
+com\hrms\service\BankVerificationService.class
 com\hrms\repository\BankDetailsRepository.class
 com\hrms\exception\GlobalExceptionHandler.class
 com\hrms\dto\ApiResponse$ApiResponseBuilder.class
@@ -5,6 +6,7 @@ com\hrms\repository\DocumentRepository.class
 com\hrms\dto\AddressDTO.class
 com\hrms\entity\Employment.class
 com\hrms\entity\BankDetails.class
+com\hrms\dto\BankVerificationResponse$BankVerificationResponseBuilder.class
 com\hrms\dto\AssetDTO$AssetDTOBuilder.class
 com\hrms\dto\EmploymentDTO$EmploymentDTOBuilder.class
 com\hrms\entity\Education.class
@@ -14,8 +16,10 @@ com\hrms\dto\PersonalDetailsDTO$PersonalDetailsDTOBuilder.class
 com\hrms\entity\PFDetails$PFDetailsBuilder.class
 com\hrms\repository\EmploymentRepository.class
 com\hrms\dto\CreateEmployeeDTO.class
+com\hrms\dto\BankVerificationRequest.class
 com\hrms\dto\EmployeeDTO.class
 com\hrms\entity\FamilyMember.class
+com\hrms\dto\BankVerificationResponse.class
 com\hrms\entity\Education$EducationBuilder.class
 com\hrms\dto\EmployeeDTO$EmployeeDTOBuilder.class
 com\hrms\dto\AddressDTO$AddressDTOBuilder.class
@@ -52,6 +56,7 @@ com\hrms\repository\AddressRepository.class
 com\hrms\dto\BankDetailsDTO.class
 com\hrms\entity\FamilyMember$FamilyMemberBuilder.class
 com\hrms\entity\Employee$EmployeeBuilder.class
+com\hrms\dto\BankVerificationRequest$BankVerificationRequestBuilder.class
 com\hrms\dto\BankDetailsDTO$BankDetailsDTOBuilder.class
 com\hrms\dto\FamilyMemberDTO$FamilyMemberDTOBuilder.class
 com\hrms\entity\PersonalDetails$PersonalDetailsBuilder.class

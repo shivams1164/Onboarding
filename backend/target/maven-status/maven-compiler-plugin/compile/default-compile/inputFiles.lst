@@ -1,5 +1,6 @@
 D:\Github\Onboarding\backend\src\main\java\com\hrms\dto\PersonalDetailsDTO.java
 D:\Github\Onboarding\backend\src\main\java\com\hrms\repository\PersonalDetailsRepository.java
+D:\Github\Onboarding\backend\src\main\java\com\hrms\dto\BankVerificationResponse.java
 D:\Github\Onboarding\backend\src\main\java\com\hrms\entity\FamilyMember.java
 D:\Github\Onboarding\backend\src\main\java\com\hrms\dto\DocumentDTO.java
 D:\Github\Onboarding\backend\src\main\java\com\hrms\entity\Employee.java
@@ -22,6 +23,7 @@ D:\Github\Onboarding\backend\src\main\java\com\hrms\HrmsApplication.java
 D:\Github\Onboarding\backend\src\main\java\com\hrms\config\AppConfig.java
 D:\Github\Onboarding\backend\src\main\java\com\hrms\service\EmployeeService.java
 D:\Github\Onboarding\backend\src\main\java\com\hrms\repository\AddressRepository.java
+D:\Github\Onboarding\backend\src\main\java\com\hrms\dto\BankVerificationRequest.java
 D:\Github\Onboarding\backend\src\main\java\com\hrms\repository\AssetRepository.java
 D:\Github\Onboarding\backend\src\main\java\com\hrms\entity\Asset.java
 D:\Github\Onboarding\backend\src\main\java\com\hrms\dto\AddressDTO.java
@@ -35,5 +37,6 @@ D:\Github\Onboarding\backend\src\main\java\com\hrms\dto\BankDetailsDTO.java
 D:\Github\Onboarding\backend\src\main\java\com\hrms\repository\EducationRepository.java
 D:\Github\Onboarding\backend\src\main\java\com\hrms\repository\FamilyMemberRepository.java
 D:\Github\Onboarding\backend\src\main\java\com\hrms\dto\CreateEmployeeDTO.java
+D:\Github\Onboarding\backend\src\main\java\com\hrms\service\BankVerificationService.java
 D:\Github\Onboarding\backend\src\main\java\com\hrms\entity\Employment.java
 D:\Github\Onboarding\backend\src\main\java\com\hrms\repository\EmploymentRepository.java
